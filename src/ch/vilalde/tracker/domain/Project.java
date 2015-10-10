@@ -10,7 +10,29 @@ import java.util.ArrayList;
 public class Project implements Serializable {
     private String name;
     private Color color;
-    private ArrayList<Task> tasks;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Project project = (Project) o;
+
+        if (!name.equals(project.name)) return false;
+        if (color != null ? !color.equals(project.color) : project.color != null) return false;
+        return !(tasks != null ? !tasks.equals(project.tasks) : project.tasks != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + (tasks != null ? tasks.hashCode() : 0);
+        return result;
+    }
+
+    private ArrayList<Task> tasks = new ArrayList<>();
 
     public String getName() {
         return name;

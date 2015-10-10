@@ -6,7 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * Created by Jonas on 10.10.2015.
+ * Form window to for adding a new project
  */
 public class NewProjectWindow extends JFrame {
 
