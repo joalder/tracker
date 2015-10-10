@@ -71,10 +71,13 @@ public class NewTaskWindow extends JFrame implements ActionListener {
         constraints.gridy = 1;
         mainPanel.add(buttonProject, constraints);
 
-        // tbd: Effort Field
+        JSpinner spinnerEffort = new JSpinner();
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        mainPanel.add(spinnerEffort, constraints);
 
         JLabel labelEstEffort = new JLabel("Estimated Effort:");
-        //labelEstEffort.setLabelFor(fieldProject);
+        labelEstEffort.setLabelFor(spinnerEffort);
         constraints.gridx = 0;
         constraints.gridy = 2;
         mainPanel.add(labelEstEffort, constraints);
