@@ -1,5 +1,8 @@
 package ch.vilalde.tracker;
 
+import ch.vilalde.tracker.domain.Project;
+import ch.vilalde.tracker.domain.Task;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,8 +16,17 @@ import java.util.Vector;
  */
 public class NewTaskWindow extends JFrame implements ActionListener {
 
+    public static final String SAVE_AND_ADD_ANOTHER = "Save and add another";
+    public static final String SAVE = "Save";
+    public static final String ADD_NEW_PROJECT = "Add new Project";
+
     private Tracker main;
     private JPanel mainPanel;
+    private JComboBox<Project> fieldProject;
+    private JTextField titleField;
+    private JSpinner effortSpinner;
+    private JComboBox<String> priorityField;
+    private JTextArea descriptionArea;
 
     public NewTaskWindow(Tracker tracker) {
         super("Tracker - Add new Task");
@@ -36,25 +48,25 @@ public class NewTaskWindow extends JFrame implements ActionListener {
 
         GridBagConstraints constraints = new GridBagConstraints();
 
-        JTextField fieldTitle = new JTextField(30);
+        titleField = new JTextField(30);
         constraints.gridx = 1;
         constraints.gridy = 0;
         constraints.gridwidth = 2;
         constraints.ipady = 8;
         constraints.ipadx = 5;
         constraints.insets = new Insets(5, 5, 5, 5);
-        mainPanel.add(fieldTitle, constraints);
+        mainPanel.add(titleField, constraints);
 
         JLabel labelTitle = new JLabel("Title:");
-        labelTitle.setLabelFor(fieldTitle);
+        labelTitle.setLabelFor(titleField);
         constraints.anchor = GridBagConstraints.EAST;
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.gridwidth = 1;
         mainPanel.add(labelTitle, constraints);
 
-        // @Todo: Actually fill in the current projects
-        JComboBox<String> fieldProject = new JComboBox<>();
+        fieldProject = new JComboBox<>();
+        updateProjects();
         constraints.gridx = 1;
         constraints.gridy = 1;
         mainPanel.add(fieldProject, constraints);
@@ -65,19 +77,19 @@ public class NewTaskWindow extends JFrame implements ActionListener {
         constraints.gridy = 1;
         mainPanel.add(labelProject, constraints);
 
-        JButton buttonProject = new JButton("Add new Project");
+        JButton buttonProject = new JButton(ADD_NEW_PROJECT);
         buttonProject.addActionListener(this);
         constraints.gridx = 2;
         constraints.gridy = 1;
         mainPanel.add(buttonProject, constraints);
 
-        JSpinner spinnerEffort = new JSpinner();
+        effortSpinner = new JSpinner();
         constraints.gridx = 1;
         constraints.gridy = 2;
-        mainPanel.add(spinnerEffort, constraints);
+        mainPanel.add(effortSpinner, constraints);
 
         JLabel labelEstEffort = new JLabel("Estimated Effort:");
-        labelEstEffort.setLabelFor(spinnerEffort);
+        labelEstEffort.setLabelFor(effortSpinner);
         constraints.gridx = 0;
         constraints.gridy = 2;
         mainPanel.add(labelEstEffort, constraints);
@@ -86,47 +98,81 @@ public class NewTaskWindow extends JFrame implements ActionListener {
         prioChoice.add("High");
         prioChoice.add("Medium");
         prioChoice.add("Low");
-        JComboBox<String> fieldPriority = new JComboBox<>(prioChoice);
+        priorityField = new JComboBox<>(prioChoice);
         constraints.gridx = 1;
         constraints.gridy = 3;
-        mainPanel.add(fieldPriority, constraints);
+        mainPanel.add(priorityField, constraints);
 
         JLabel labelPriority = new JLabel("Priority:");
-        labelPriority.setLabelFor(fieldPriority);
+        labelPriority.setLabelFor(priorityField);
         constraints.gridx = 0;
         constraints.gridy = 3;
         mainPanel.add(labelPriority, constraints);
 
-        JTextArea textArea = new JTextArea(6, 30);
+        descriptionArea = new JTextArea(6, 30);
         constraints.gridx = 1;
         constraints.gridy = 4;
         constraints.gridwidth = 2;
-        mainPanel.add(textArea, constraints);
+        mainPanel.add(descriptionArea, constraints);
 
         JLabel labelDetailDescription = new JLabel("Detailed Description:");
-        labelPriority.setLabelFor(textArea);
+        labelPriority.setLabelFor(descriptionArea);
         constraints.gridx = 0;
         constraints.gridy = 4;
         constraints.gridwidth = 1;
         mainPanel.add(labelDetailDescription, constraints);
 
-        JButton buttonSave = new JButton("Save");
+        JButton buttonSave = new JButton(SAVE);
         constraints.gridx = 1;
         constraints.gridy = 5;
+        buttonSave.addActionListener(this);
         mainPanel.add(buttonSave, constraints);
 
-        JButton buttonSaveAndAdd = new JButton("Save and add another");
+        JButton buttonSaveAndAdd = new JButton(SAVE_AND_ADD_ANOTHER);
         constraints.gridx = 2;
         constraints.gridy = 5;
+        buttonSaveAndAdd.addActionListener(this);
         mainPanel.add(buttonSaveAndAdd, constraints);
 
         this.add(mainPanel);
     }
 
+    public void updateProjects(){
+        fieldProject.removeAllItems();
+        for (Project project : main.getProjects()){
+            fieldProject.addItem(project);
+        }
+    }
+
+    private Boolean isFilled(){
+        return !(titleField.getText().equals("") || descriptionArea.getText().equals(""));
+    }
+
+    private void saveTask(){
+        Task task = new Task(titleField.getText(), (int)effortSpinner.getValue(), (String)priorityField.getSelectedItem(), descriptionArea.getText());
+        main.addTask((Project)fieldProject.getSelectedItem(), task);
+    }
+
+    private void clean(){
+        titleField.setText("");
+        descriptionArea.setText("");
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if( e.getActionCommand().equals("Add new Project")){
+        if( e.getActionCommand().equals(ADD_NEW_PROJECT)){
             main.showNewProjectWindow();
+        } else if (e.getActionCommand().equals(SAVE)){
+            if (isFilled()){
+                saveTask();
+                clean();
+                this.setVisible(false);
+            }
+        } else if (e.getActionCommand().equals(SAVE_AND_ADD_ANOTHER)){
+            if (isFilled()){
+                saveTask();
+                clean();
+            }
         }
     }
 }

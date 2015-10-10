@@ -1,14 +1,18 @@
 package ch.vilalde.tracker;
 
+import ch.vilalde.tracker.domain.Project;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
  * Form window to for adding a new project
  */
-public class NewProjectWindow extends JFrame {
+public class NewProjectWindow extends JFrame implements ActionListener {
 
     Tracker main;
     JLabel nameLabel;
@@ -61,8 +65,31 @@ public class NewProjectWindow extends JFrame {
         constraints.gridy = 3;
         constraints.gridwidth = 2;
         saveButton = new JButton("Save");
+        saveButton.addActionListener(this);
         this.add(saveButton, constraints);
 
         this.pack();
+    }
+
+    public void clean(){
+        nameField.setText("");
+    }
+
+    public Boolean isFilled(){
+        return !nameField.getText().equals("") && colorChooser.getColor() != null;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Save")){
+            if (isFilled()){
+                Project project = new Project();
+                project.setName(nameField.getText());
+                project.setColor(colorChooser.getColor());
+                main.addProject(project);
+                clean();
+                this.setVisible(false);
+            }
+        }
     }
 }

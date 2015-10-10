@@ -32,6 +32,11 @@ public class Project implements Serializable {
         return result;
     }
 
+    @Override
+    public String toString(){
+        return name;
+    }
+
     private ArrayList<Task> tasks = new ArrayList<>();
 
     public String getName() {
