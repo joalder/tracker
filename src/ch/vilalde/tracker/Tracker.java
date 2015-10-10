@@ -10,7 +10,7 @@ import java.awt.event.WindowEvent;
 public class Tracker implements ActionListener {
 
     private JFrame mainFrame;
-    private NewTaskWindow newTaskDialog;
+    private NewTaskWindow newTaskWindow;
 
     public Tracker() {
         prepareUi();
@@ -24,7 +24,7 @@ public class Tracker implements ActionListener {
         JMenuBar mainMenu = new TrackerMenu(mainFrame);
         mainFrame.setJMenuBar(mainMenu);
 
-        newTaskDialog = new NewTaskWindow();
+        newTaskWindow = new NewTaskWindow();
 
         JPanel buttonBar = new JPanel(new FlowLayout());
         JButton priorityButton = new JButton("Priority");
@@ -69,7 +69,7 @@ public class Tracker implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add new Task")) {
 
-            newTaskDialog.setVisible(true);
+            newTaskWindow.setVisible(true);
         } else {
             System.out.println("This button is useless at the moment...");
         }

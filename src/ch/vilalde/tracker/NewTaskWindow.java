@@ -2,6 +2,8 @@ package ch.vilalde.tracker;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
@@ -9,10 +11,11 @@ import java.util.Vector;
 /**
  * Form for entering new tasks and projects
  */
-public class NewTaskWindow extends JFrame {
+public class NewTaskWindow extends JFrame implements ActionListener {
 
 
     private JPanel mainPanel;
+    private NewProjectWindow newProjectWindow;
 
     public NewTaskWindow() {
         super("Tracker - Add new Task");
@@ -20,6 +23,8 @@ public class NewTaskWindow extends JFrame {
         this.setSize(550, 400);
 
         prepareUi();
+
+        newProjectWindow = new NewProjectWindow();
 
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -62,7 +67,8 @@ public class NewTaskWindow extends JFrame {
         constraints.gridy = 1;
         mainPanel.add(labelProject, constraints);
 
-        JButton buttonProject = new JButton("Add new project");
+        JButton buttonProject = new JButton("Add new Project");
+        buttonProject.addActionListener(this);
         constraints.gridx = 2;
         constraints.gridy = 1;
         mainPanel.add(buttonProject, constraints);
@@ -116,4 +122,10 @@ public class NewTaskWindow extends JFrame {
         this.add(mainPanel);
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if( e.getActionCommand().equals("Add new Project")){
+            this.newProjectWindow.setVisible(true);
+        }
+    }
 }
