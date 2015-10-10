@@ -11,6 +11,7 @@ public class Tracker implements ActionListener {
 
     private JFrame mainFrame;
     private NewTaskWindow newTaskWindow;
+    private NewProjectWindow newProjectWindow;
 
     public Tracker() {
         prepareUi();
@@ -24,7 +25,8 @@ public class Tracker implements ActionListener {
         JMenuBar mainMenu = new TrackerMenu(mainFrame);
         mainFrame.setJMenuBar(mainMenu);
 
-        newTaskWindow = new NewTaskWindow();
+        newTaskWindow = new NewTaskWindow(this);
+        newProjectWindow = new NewProjectWindow(this);
 
         JPanel buttonBar = new JPanel(new FlowLayout());
         JButton priorityButton = new JButton("Priority");
@@ -69,9 +71,17 @@ public class Tracker implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add new Task")) {
 
-            newTaskWindow.setVisible(true);
+            showNewTaskWindow();
         } else {
             System.out.println("This button is useless at the moment...");
         }
+    }
+
+    public void showNewTaskWindow(){
+        newTaskWindow.setVisible(true);
+    }
+
+    public void showNewProjectWindow(){
+        newProjectWindow.setVisible(true);
     }
 }

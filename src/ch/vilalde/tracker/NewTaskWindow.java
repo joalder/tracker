@@ -13,18 +13,16 @@ import java.util.Vector;
  */
 public class NewTaskWindow extends JFrame implements ActionListener {
 
-
+    private Tracker main;
     private JPanel mainPanel;
-    private NewProjectWindow newProjectWindow;
 
-    public NewTaskWindow() {
+    public NewTaskWindow(Tracker tracker) {
         super("Tracker - Add new Task");
 
         this.setSize(550, 400);
+        main = tracker;
 
         prepareUi();
-
-        newProjectWindow = new NewProjectWindow();
 
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -125,7 +123,7 @@ public class NewTaskWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if( e.getActionCommand().equals("Add new Project")){
-            this.newProjectWindow.setVisible(true);
+            main.showNewProjectWindow();
         }
     }
 }

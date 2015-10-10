@@ -10,16 +10,19 @@ import java.awt.event.WindowEvent;
  */
 public class NewProjectWindow extends JFrame {
 
+    Tracker main;
     JLabel nameLabel;
     JLabel colorLabel;
     JColorChooser colorChooser;
     JTextField nameField;
     JButton saveButton;
 
-    public NewProjectWindow() {
+    public NewProjectWindow(Tracker tracker) {
         super("Tracker - Add new Project");
 
         this.setSize(550, 400);
+
+        main = tracker;
 
         prepareUi();
 
