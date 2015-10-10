@@ -22,6 +22,12 @@ public class TestDataPersistence {
     private ArrayList<Project> projectList = new ArrayList<>();
     public static final String FILE_NAME = "test.xml";
 
+    @BeforeClass
+    public static void globalPrepare(){
+        File f = new File(FILE_NAME);
+        f.delete();
+    }
+
     @Before
     public void setUp() {
         Task task = new Task("Test Task", 10, "High", "Moar Text");
@@ -37,11 +43,7 @@ public class TestDataPersistence {
 
     @Test
     public void saveData() {
-        try {
-            Util.saveData(projectList, FILE_NAME);
-        } catch (FileNotFoundException e) {
-            assertTrue("Exception occured!" + e.getMessage(), false);
-        }
+        Util.saveData(projectList, FILE_NAME);
 
         File f = new File(FILE_NAME);
         assertTrue("Checking file existence", f.exists() && !f.isDirectory());
@@ -54,7 +56,7 @@ public class TestDataPersistence {
             projects = Util.loadData(FILE_NAME);
         } catch (FileNotFoundException e) {
             assertTrue("Exception occured!" + e.getMessage(), false);
-        } catch (ClassCastException e){
+        } catch (ClassCastException e) {
             assertTrue("Invalid format! " + e.getMessage(), false);
         }
 

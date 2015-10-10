@@ -30,11 +30,15 @@ public class Util {
         return projects;
     }
 
-    public static void saveData(ArrayList<Project> projects, String fileName) throws FileNotFoundException {
-        XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(fileName)));
-
-        encoder.writeObject(projects);
-
-        encoder.close();
+    public static void saveData(ArrayList<Project> projects, String fileName)  {
+        XMLEncoder encoder = null;
+        try {
+            encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(fileName)));
+            encoder.writeObject(projects);
+            encoder.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Error on saving data to file: " + fileName);
+            e.printStackTrace();
+        }
     }
 }

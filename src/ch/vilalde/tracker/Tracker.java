@@ -1,20 +1,41 @@
 package ch.vilalde.tracker;
 
+import ch.vilalde.tracker.domain.Project;
+import ch.vilalde.tracker.domain.Task;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class Tracker implements ActionListener {
 
+    public static final String DATA_FILE = "tracker_data.xml";
     private JFrame mainFrame;
+    private ArrayList<Project> projects;
     private NewTaskWindow newTaskWindow;
     private NewProjectWindow newProjectWindow;
 
     public Tracker() {
+        loadData();
+
         prepareUi();
+    }
+
+    private void loadData() {
+        try {
+            projects = Util.loadData(DATA_FILE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Could not find Tracker data in " + DATA_FILE);
+            System.out.println(e.getStackTrace());
+        }
+        if (projects == null) {
+            projects = new ArrayList<>();
+        }
     }
 
     private void prepareUi() {
@@ -51,6 +72,7 @@ public class Tracker implements ActionListener {
 
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
+                Util.saveData(projects, DATA_FILE);
                 System.exit(0);
             }
         });
@@ -60,6 +82,24 @@ public class Tracker implements ActionListener {
         mainFrame.setVisible(true);
     }
 
+    public void addTask(Project refProject, Task task) {
+        for (Project project : projects) {
+            if (project.equals(refProject)) {
+                project.addTask(task);
+                return;
+            }
+        }
+        System.out.println("Could not find project with name: " + refProject.getName());
+    }
+
+    public void addProject(Project project){
+        projects.add(project);
+        newTaskWindow.updateProjects();
+    }
+
+    public ArrayList<Project> getProjects() {
+        return projects;
+    }
 
     public static void main(String[] args) {
         Tracker ui = new Tracker();
@@ -77,11 +117,11 @@ public class Tracker implements ActionListener {
         }
     }
 
-    public void showNewTaskWindow(){
+    public void showNewTaskWindow() {
         newTaskWindow.setVisible(true);
     }
 
-    public void showNewProjectWindow(){
+    public void showNewProjectWindow() {
         newProjectWindow.setVisible(true);
     }
 }
