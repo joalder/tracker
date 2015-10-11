@@ -5,11 +5,13 @@ import ch.vilalde.tracker.domain.Task;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by avi on 11.10.15.
  */
-public class Tile extends JPanel {
+public class Tile extends JPanel implements ActionListener {
 
     final int PIXEL = 50;
 
@@ -18,7 +20,11 @@ public class Tile extends JPanel {
     private int size;
     private Color color;
 
+    final String CAPTION_ADD_HOUR = "+1h";
+
     public Tile(Task task, Project project, int size) {
+        super(new BorderLayout());
+
         this.task = task;
         this.project = project;
         this.size = size;
@@ -26,13 +32,16 @@ public class Tile extends JPanel {
 
         Font font = new Font("Helvetica-Neue", Font.PLAIN, 6 + size * 3);
 
-        MultilineLabel label = new MultilineLabel(task.getTitle());
-        label.setForeground(Color.WHITE);
-        label.setSize(getPreferredSize());
-        label.setMargin(new Insets(5, 5, 10, 10));
-        label.setFont(font);
+        MultilineLabel titleLabel = new MultilineLabel(task.getTitle());
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setSize(getPreferredSize());
+        titleLabel.setMargin(new Insets(5, 5, 5, 5));
+        titleLabel.setFont(font);
+        add(titleLabel, BorderLayout.NORTH);
 
-        add(label);
+        JButton addButton = new JButton(CAPTION_ADD_HOUR);
+        addButton.addActionListener(this);
+        add(addButton, BorderLayout.SOUTH);
     }
 
     public Dimension getPreferredSize() {
@@ -48,6 +57,13 @@ public class Tile extends JPanel {
 
         // draw background
         g.setColor(c);
-        g.fillRect(0, 0, pixelsize - 5, pixelsize - 5);
+        g.fillRect(1, 1, pixelsize - 2, pixelsize - 2);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals(CAPTION_ADD_HOUR)) {
+            task.setSpentEffort(task.getSpentEffort() + 1);
+        }
     }
 }
