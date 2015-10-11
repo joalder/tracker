@@ -15,6 +15,8 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Tracker main class. Builds the UI for the main window.
@@ -30,11 +32,33 @@ public class Tracker implements ActionListener {
     private NewProjectWindow newProjectWindow;
     ImageIcon addIcon;
 
+    public class PriorityComparator implements Comparator<Task> {
+        @Override
+        public int compare(Task t1, Task t2) {
+            return t1.getPriorityAsInt().compareTo(t2.getPriorityAsInt());
+        }
+    }
+
+    public class EstimatedEffortComparator implements Comparator<Task> {
+        @Override
+        public int compare(Task t1, Task t2) {
+            return t1.getEstimatedEffort().compareTo(t2.getEstimatedEffort());
+        }
+    }
+
+    public class SpentEffortComparator implements Comparator<Task> {
+        @Override
+        public int compare(Task t1, Task t2) {
+            return t1.getSpentEffort().compareTo(t2.getSpentEffort());
+        }
+    }
+
     public Tracker() {
         loadData();
         loadIcons();
         prepareUi();
     }
+
 
     /**
      * Loads data (Projects, Tasks) from the XML file defied in DATA_FILE and stores it in a field.
@@ -143,6 +167,7 @@ public class Tracker implements ActionListener {
     public void addProject(Project project) {
         projects.add(project);
         newTaskWindow.updateProjects();
+        buildTreeMap();
     }
 
     /**
@@ -155,8 +180,22 @@ public class Tracker implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Add new Task")) {
-
             showNewTaskWindow();
+        } else if (e.getActionCommand().equals("Priority")) {
+            for (Project project : projects) {
+                project.getTasks().sort(new PriorityComparator());
+            }
+            buildTreeMap();
+        } else if (e.getActionCommand().equals("Estimated Effort")) {
+            for (Project project : projects) {
+                project.getTasks().sort(new EstimatedEffortComparator());
+            }
+            buildTreeMap();
+        } else if (e.getActionCommand().equals("Spent Effort")) {
+            for (Project project : projects) {
+                project.getTasks().sort(new SpentEffortComparator());
+            }
+            buildTreeMap();
         } else {
             System.out.println("This button is useless at the moment...");
         }

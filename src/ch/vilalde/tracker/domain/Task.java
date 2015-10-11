@@ -33,6 +33,7 @@ public class Task implements Serializable{
     public Task(String title, int estimatedEffort, String priority, String detailedDescription){
         this.title = title;
         this.estimatedEffort = estimatedEffort;
+        this.spentEffort = 0;
         this.priority = priority;
         this.detailedDescription = detailedDescription;
 
@@ -46,27 +47,36 @@ public class Task implements Serializable{
         Task task = (Task) o;
 
         if (estimatedEffort != task.estimatedEffort) return false;
-        if (!title.equals(task.title)) return false;
+        if (spentEffort != task.spentEffort) return false;
+        if (title != null ? !title.equals(task.title) : task.title != null) return false;
         if (priority != null ? !priority.equals(task.priority) : task.priority != null) return false;
         return !(detailedDescription != null ? !detailedDescription.equals(task.detailedDescription) : task.detailedDescription != null);
-
     }
 
     @Override
     public int hashCode() {
-        int result = title.hashCode();
+        int result = title != null ? title.hashCode() : 0;
         result = 31 * result + estimatedEffort;
+        result = 31 * result + spentEffort;
         result = 31 * result + (priority != null ? priority.hashCode() : 0);
         result = 31 * result + (detailedDescription != null ? detailedDescription.hashCode() : 0);
         return result;
     }
 
-    public int getEstimatedEffort() {
+    public Integer getEstimatedEffort() {
         return estimatedEffort;
     }
 
     public void setEstimatedEffort(int estimatedEffort) {
         this.estimatedEffort = estimatedEffort;
+    }
+
+    public Integer getSpentEffort() {
+        return spentEffort;
+    }
+
+    public void setSpentEffort(int estimatedEffort) {
+        this.spentEffort = spentEffort;
     }
 
     public String getPriority() {
@@ -91,5 +101,17 @@ public class Task implements Serializable{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Integer getPriorityAsInt() {
+        switch (priority) {
+            case "High":
+                return 1;
+            case "Low":
+                return -1;
+            case "Medium":
+            default:
+                return 0;
+        }
     }
 }
