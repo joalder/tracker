@@ -2,6 +2,7 @@ package ch.vilalde.tracker;
 
 import ch.vilalde.tracker.domain.Project;
 import ch.vilalde.tracker.domain.Task;
+import ch.vilalde.tracker.treemap.Map;
 
 import javax.swing.*;
 import java.awt.*;
@@ -90,8 +91,7 @@ public class Tracker implements ActionListener {
         buttonBar.add(rightButtonBar, BorderLayout.EAST);
         mainFrame.add(buttonBar, BorderLayout.NORTH);
 
-        JLabel message = new JLabel("There will a nice TreeMap here...");
-        mainFrame.add(message, BorderLayout.CENTER);
+        mainFrame.add(new Map(projects), BorderLayout.WEST);
 
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
