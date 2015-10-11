@@ -6,10 +6,22 @@ import java.util.ArrayList;
 
 /**
  * Domain class for storing a project and its data
+ *
  */
 public class Project implements Serializable {
+    /**
+     * The name of the project
+     */
     private String name;
+    /**
+     * Color used for display in TreeMap
+     */
     private Color color;
+    /**
+     * List of {@link Task}s in the project
+     */
+    private ArrayList<Task> tasks = new ArrayList<>();
+
 
     @Override
     public boolean equals(Object o) {
@@ -36,8 +48,6 @@ public class Project implements Serializable {
     public String toString(){
         return name;
     }
-
-    private ArrayList<Task> tasks = new ArrayList<>();
 
     public String getName() {
         return name;

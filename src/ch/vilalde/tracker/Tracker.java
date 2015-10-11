@@ -3,7 +3,6 @@ package ch.vilalde.tracker;
 import ch.vilalde.tracker.domain.Project;
 import ch.vilalde.tracker.domain.Task;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,11 +11,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Tracker main class. Builds the UI for the main window.
+ * Currently also responsible for the data storage (during runtime), and central window control
+ */
 public class Tracker implements ActionListener {
 
     public static final String DATA_FILE = "tracker_data.xml";
@@ -32,6 +34,10 @@ public class Tracker implements ActionListener {
         prepareUi();
     }
 
+    /**
+     * Loads data (Projects, Tasks) from the XML file defied in DATA_FILE and stores it in a field.
+     * If loading fails, an empty project list is set
+     */
     private void loadData() {
         try {
             projects = Util.loadData(DATA_FILE);
@@ -44,6 +50,10 @@ public class Tracker implements ActionListener {
         }
     }
 
+    /**
+     * Prepares the UI for the main window, also initializes the other windows.
+     * Windows are not visible by default (use showUi())
+     */
     private void prepareUi() {
         mainFrame = new JFrame("Tracker - Your lightweight task tracker");
         mainFrame.setSize(1000, 700);
@@ -55,22 +65,29 @@ public class Tracker implements ActionListener {
         newTaskWindow = new NewTaskWindow(this);
         newProjectWindow = new NewProjectWindow(this);
 
-        JPanel buttonBar = new JPanel(new FlowLayout());
+        JPanel leftButtonBar = new JPanel(new FlowLayout());
+
+        JLabel sortingLabel = new JLabel("Sort by:");
+        leftButtonBar.add(sortingLabel);
         JButton priorityButton = new JButton("Priority");
         priorityButton.addActionListener(this);
-        buttonBar.add(priorityButton);
+        leftButtonBar.add(priorityButton, BorderLayout.EAST);
         JButton estEffortButton = new JButton("Estimated Effort");
         estEffortButton.addActionListener(this);
-        buttonBar.add(estEffortButton);
+        leftButtonBar.add(estEffortButton, BorderLayout.EAST);
         JButton spentEffortButton = new JButton("Spent Effort");
         spentEffortButton.addActionListener(this);
-        buttonBar.add(spentEffortButton);
+        leftButtonBar.add(spentEffortButton, BorderLayout.EAST);
 
+        JPanel rightButtonBar = new JPanel(new FlowLayout());
         JButton addTaskButton = new JButton("Add new Task");
         addTaskButton.setIcon(addIcon);
         addTaskButton.addActionListener(this);
-        buttonBar.add(addTaskButton);
+        rightButtonBar.add(addTaskButton);
 
+        JPanel buttonBar = new JPanel(new BorderLayout());
+        buttonBar.add(leftButtonBar, BorderLayout.WEST);
+        buttonBar.add(rightButtonBar, BorderLayout.EAST);
         mainFrame.add(buttonBar, BorderLayout.NORTH);
 
         JLabel message = new JLabel("There will a nice TreeMap here...");
@@ -84,11 +101,16 @@ public class Tracker implements ActionListener {
         });
     }
 
-
+    /**
+     * Enable the display of the main window
+     */
     public void showUi() {
         mainFrame.setVisible(true);
     }
 
+    /**
+     * Add a task to a specific project
+     */
     public void addTask(Project refProject, Task task) {
         for (Project project : projects) {
             if (project.equals(refProject)) {
@@ -99,20 +121,20 @@ public class Tracker implements ActionListener {
         System.out.println("Could not find project with name: " + refProject.getName());
     }
 
+    /**
+     * Adds a project to the global list of projects
+     */
     public void addProject(Project project) {
         projects.add(project);
         newTaskWindow.updateProjects();
     }
 
+    /**
+     * Returns currently available projects
+     */
     public ArrayList<Project> getProjects() {
         return projects;
     }
-
-    public static void main(String[] args) {
-        Tracker ui = new Tracker();
-        ui.showUi();
-    }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -124,6 +146,9 @@ public class Tracker implements ActionListener {
         }
     }
 
+    /**
+     * Preloads the used icons for further use in the app. If loading fails, icons will remain null.
+     */
     private void loadIcons() {
         try {
             URL f = new File("src/resources/add.png").toURI().toURL();
@@ -133,11 +158,22 @@ public class Tracker implements ActionListener {
         }
     }
 
+    /**
+     * Displays the {@link NewTaskWindow}. Has to be created beforehand.
+     */
     public void showNewTaskWindow() {
         newTaskWindow.setVisible(true);
     }
 
+    /**
+     * Displays the {@link NewProjectWindow}. Has to be created beforehand.
+     */
     public void showNewProjectWindow() {
         newProjectWindow.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        Tracker ui = new Tracker();
+        ui.showUi();
     }
 }
