@@ -24,7 +24,7 @@ public class Tile extends JPanel {
         this.size = size;
         this.color = project.getColor();
 
-        Font font = new Font("Helvetica-Neue", Font.PLAIN, 10 + size * 3);
+        Font font = new Font("Helvetica-Neue", Font.PLAIN, 6 + size * 3);
 
         MultilineLabel label = new MultilineLabel(task.getTitle());
         label.setForeground(Color.WHITE);
