@@ -109,7 +109,7 @@ public class Tracker implements ActionListener {
         leftButtonBar.add(spentEffortButton, BorderLayout.EAST);
 
         JPanel rightButtonBar = new JPanel(new FlowLayout());
-        JButton addTaskButton = new JButton("Add new Task");
+        JButton addTaskButton = new JButton(CAPTION_ADD_NEW_TASK);
         addTaskButton.setIcon(addIcon);
         addTaskButton.addActionListener(this);
         rightButtonBar.add(addTaskButton);

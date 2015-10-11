@@ -20,6 +20,8 @@ public class Tile extends JPanel implements ActionListener {
     private int size;
     private Color color;
 
+    private JPanel controlPanel;
+
     final String CAPTION_ADD_HOUR = "+1h";
 
     public Tile(Task task, Project project, int size) {
@@ -39,9 +41,22 @@ public class Tile extends JPanel implements ActionListener {
         titleLabel.setFont(font);
         add(titleLabel, BorderLayout.NORTH);
 
+        controlPanel = new JPanel(new GridBagLayout());
+        controlPanel.setOpaque(false);
+
+        GridBagConstraints constraints = new GridBagConstraints();
+
         JButton addButton = new JButton(CAPTION_ADD_HOUR);
         addButton.addActionListener(this);
-        add(addButton, BorderLayout.SOUTH);
+        constraints.gridx = 0;
+        controlPanel.add(addButton, constraints);
+
+        JLabel effortLabel = new JLabel(task.getSpentEffort() + "/" + task.getEstimatedEffort());
+        effortLabel.setForeground(Color.WHITE);
+        constraints.gridx = 1;
+        controlPanel.add(effortLabel, constraints);
+
+        add(controlPanel, BorderLayout.SOUTH);
     }
 
     public Dimension getPreferredSize() {
@@ -53,11 +68,15 @@ public class Tile extends JPanel implements ActionListener {
         super.paintComponent(g);
 
         int pixelsize = size * PIXEL;
-        Color c = new Color(color.getRed(), color.getGreen(), color.getBlue(), 55 + size * 50);
+        Color c = getColor();
 
         // draw background
         g.setColor(c);
         g.fillRect(1, 1, pixelsize - 2, pixelsize - 2);
+    }
+
+    private Color getColor() {
+        return new Color(color.getRed(), color.getGreen(), color.getBlue(), 55 + size * 50);
     }
 
     @Override

@@ -13,11 +13,11 @@ public class Task implements Serializable{
     /**
      * Estimated effort of the task in hours
      */
-    private int estimatedEffort;
+    private Integer estimatedEffort;
     /**
      * Total spent effort in hours for this task
      */
-    private int spentEffort;
+    private Integer spentEffort;
     /**
      * Priority of the task. Either "High", "Medium" or "Low"
      * @ Todo: Convert to/use enum!?
@@ -36,7 +36,6 @@ public class Task implements Serializable{
         this.spentEffort = 0;
         this.priority = priority;
         this.detailedDescription = detailedDescription;
-
     }
 
     @Override
@@ -67,7 +66,7 @@ public class Task implements Serializable{
         return estimatedEffort;
     }
 
-    public void setEstimatedEffort(int estimatedEffort) {
+    public void setEstimatedEffort(Integer estimatedEffort) {
         this.estimatedEffort = estimatedEffort;
     }
 
@@ -75,7 +74,7 @@ public class Task implements Serializable{
         return spentEffort;
     }
 
-    public void setSpentEffort(int spentEffort) {
+    public void setSpentEffort(Integer spentEffort) {
         this.spentEffort = spentEffort;
     }
 
