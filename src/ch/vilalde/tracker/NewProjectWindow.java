@@ -14,13 +14,35 @@ import java.awt.event.WindowEvent;
  */
 public class NewProjectWindow extends JFrame implements ActionListener {
 
+    /**
+     * Reference to the main tracker
+     */
     Tracker main;
+    /**
+     * Project name label
+     */
     JLabel nameLabel;
+    /**
+     * Color chooser label
+     */
     JLabel colorLabel;
+    /**
+     * JColorChooser for selecting the project color
+     */
     JColorChooser colorChooser;
+    /**
+     * Actual field for the name of a new project
+     */
     JTextField nameField;
+    /**
+     * Button for saving the project
+     */
     JButton saveButton;
 
+    /**
+     * Std. constructor for the window
+     * @param tracker Reference to the main tracker, used for data and window control
+     */
     public NewProjectWindow(Tracker tracker) {
         super("Tracker - Add new Project");
 
@@ -33,10 +55,14 @@ public class NewProjectWindow extends JFrame implements ActionListener {
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
                 System.out.println("Add new Project window closed!");
+                clean();
             }
         });
     }
 
+    /**
+     * Prepares all the necessary UI components for this window, but does not set it visible
+     */
     private void prepareUi(){
         this.setLayout(new GridBagLayout());
 
@@ -71,10 +97,16 @@ public class NewProjectWindow extends JFrame implements ActionListener {
         this.pack();
     }
 
+    /**
+     * Cleans the necessary fields for reuse
+     */
     public void clean(){
         nameField.setText("");
     }
 
+    /**
+     * @return true if all the required fields have been filled
+     */
     public Boolean isFilled(){
         return !nameField.getText().equals("") && colorChooser.getColor() != null;
     }
@@ -83,6 +115,7 @@ public class NewProjectWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Save")){
             if (isFilled()){
+                // All good, create and save the new project
                 Project project = new Project();
                 project.setName(nameField.getText());
                 project.setColor(colorChooser.getColor());

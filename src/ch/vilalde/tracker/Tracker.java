@@ -59,7 +59,7 @@ public class Tracker implements ActionListener {
         mainFrame.setSize(1000, 700);
         mainFrame.setLayout(new BorderLayout());
 
-        JMenuBar mainMenu = new TrackerMenu(mainFrame);
+        JMenuBar mainMenu = new TrackerMenu();
         mainFrame.setJMenuBar(mainMenu);
 
         newTaskWindow = new NewTaskWindow(this);
@@ -110,6 +110,9 @@ public class Tracker implements ActionListener {
 
     /**
      * Add a task to a specific project
+     *
+     * @param refProject Project the task belongs to
+     * @param task Task to add
      */
     public void addTask(Project refProject, Task task) {
         for (Project project : projects) {
@@ -123,6 +126,7 @@ public class Tracker implements ActionListener {
 
     /**
      * Adds a project to the global list of projects
+     * @param project Project to add
      */
     public void addProject(Project project) {
         projects.add(project);
@@ -130,7 +134,7 @@ public class Tracker implements ActionListener {
     }
 
     /**
-     * Returns currently available projects
+     * @return currently (runtime) available projects
      */
     public ArrayList<Project> getProjects() {
         return projects;

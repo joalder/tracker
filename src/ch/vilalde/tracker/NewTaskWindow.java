@@ -16,18 +16,48 @@ import java.util.Vector;
  */
 public class NewTaskWindow extends JFrame implements ActionListener {
 
+    /**
+     * Button text for "save and add another", also used for action command
+     */
     public static final String SAVE_AND_ADD_ANOTHER = "Save and add another";
+    /**
+     * Button text for "save", also used for action command
+     */
     public static final String SAVE = "Save";
+    /**
+     * Button text for "add new project", also used for action command
+     */
     public static final String ADD_NEW_PROJECT = "Add new Project";
 
+    /**
+     * Reference to {@link Tracker} for data and window control
+     */
     private Tracker main;
-    private JPanel mainPanel;
+    /**
+     * ComboBox for selection the project of a task
+     */
     private JComboBox<Project> fieldProject;
+    /**
+     * Field for the title of the new task
+     */
     private JTextField titleField;
+    /**
+     * Spinner for selecting the appropriate effort of the task
+     */
     private JSpinner effortSpinner;
+    /**
+     * ComboBox for selecting the priority
+     */
     private JComboBox<String> priorityField;
+    /**
+     * TextArea to give a more detailed description
+     */
     private JTextArea descriptionArea;
 
+    /**
+     * Std constructor for the window
+     * @param tracker Reference to the main tracker for window and data control
+     */
     public NewTaskWindow(Tracker tracker) {
         super("Tracker - Add new Task");
 
@@ -38,13 +68,17 @@ public class NewTaskWindow extends JFrame implements ActionListener {
 
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
+                clean();
                 System.out.println("Add new Task window closed!");
             }
         });
     }
 
+    /**
+     * Prepares all the UI components for this window. Does not set it visible
+     */
     private void prepareUi() {
-        mainPanel = new JPanel(new GridBagLayout());
+        JPanel mainPanel = new JPanel(new GridBagLayout());
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -139,6 +173,9 @@ public class NewTaskWindow extends JFrame implements ActionListener {
         this.pack();
     }
 
+    /**
+     * Updates the project selection with currently available projects
+     */
     public void updateProjects(){
         fieldProject.removeAllItems();
         for (Project project : main.getProjects()){
@@ -146,15 +183,24 @@ public class NewTaskWindow extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * @return true if all required fields have been filled. False otherwise
+     */
     private Boolean isFilled(){
         return !(titleField.getText().equals("") || descriptionArea.getText().equals(""));
     }
 
+    /**
+     * Creates and saves the task with the currently available data
+     */
     private void saveTask(){
         Task task = new Task(titleField.getText(), (int)effortSpinner.getValue(), (String)priorityField.getSelectedItem(), descriptionArea.getText());
         main.addTask((Project)fieldProject.getSelectedItem(), task);
     }
 
+    /**
+     * Cleans all non choice fields for new entry
+     */
     private void clean(){
         titleField.setText("");
         descriptionArea.setText("");
