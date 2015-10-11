@@ -10,9 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -205,12 +203,8 @@ public class Tracker implements ActionListener {
      * Preloads the used icons for further use in the app. If loading fails, icons will remain null.
      */
     private void loadIcons() {
-        try {
-            URL f = new File("src/resources/add.png").toURI().toURL();
-            addIcon = new ImageIcon(f);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        URL f = getClass().getClassLoader().getResource("resources/add.png");
+        addIcon = new ImageIcon(f);
     }
 
     /**
