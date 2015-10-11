@@ -24,7 +24,7 @@ public class Map extends JPanel {
         for (Project project : projects) {
             add(new Column(project));
 
-            System.out.println("Project: " + project.getName());
+            //System.out.println("Project: " + project.getName());
         }
     }
 }

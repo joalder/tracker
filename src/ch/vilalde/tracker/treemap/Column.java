@@ -44,7 +44,7 @@ public class Column extends JPanel {
 
             add(tile, constraints);
 
-            System.out.println(" - " + task.getTitle());
+            //System.out.println(" - " + task.getTitle());
         }
     }
 
