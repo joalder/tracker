@@ -22,7 +22,7 @@ import java.util.Comparator;
  */
 public class Tracker implements ActionListener {
 
-    final String CAPTION_ADD_NEW_TASK = "Add new task";
+    final String CAPTION_ADD_NEW_TASK = "Add new Task";
     final String CAPTION_PRIORITY = "Priority";
     final String CAPTION_ESTIMATED_EFFORT = "Estimated Effort";
     final String CAPTION_SPENT_EFFORT = "Spent Effort";
