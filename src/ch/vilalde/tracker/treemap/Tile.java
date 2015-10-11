@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * Created by avi on 11.10.15.
+ * TreeMap tile class. Each tile represents a task.
  */
 public class Tile extends JPanel implements ActionListener {
 
@@ -21,6 +21,8 @@ public class Tile extends JPanel implements ActionListener {
     private Color color;
 
     private JPanel controlPanel;
+    private JButton addButton;
+    private JLabel effortLabel;
 
     final String CAPTION_ADD_HOUR = "+1h";
 
@@ -46,12 +48,12 @@ public class Tile extends JPanel implements ActionListener {
 
         GridBagConstraints constraints = new GridBagConstraints();
 
-        JButton addButton = new JButton(CAPTION_ADD_HOUR);
+        addButton = new JButton(CAPTION_ADD_HOUR);
         addButton.addActionListener(this);
         constraints.gridx = 0;
         controlPanel.add(addButton, constraints);
 
-        JLabel effortLabel = new JLabel(task.getSpentEffort() + "/" + task.getEstimatedEffort());
+        effortLabel = new JLabel(task.getSpentEffort() + "/" + task.getEstimatedEffort());
         effortLabel.setForeground(Color.WHITE);
         constraints.gridx = 1;
         controlPanel.add(effortLabel, constraints);
@@ -83,6 +85,7 @@ public class Tile extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals(CAPTION_ADD_HOUR)) {
             task.setSpentEffort(task.getSpentEffort() + 1);
+            effortLabel.setText(task.getSpentEffort() + "/" + task.getEstimatedEffort());
         }
     }
 }
