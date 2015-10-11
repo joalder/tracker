@@ -85,7 +85,7 @@ public class Tracker implements ActionListener {
      */
     private void prepareUi() {
         mainFrame = new JFrame("Tracker - Your lightweight task tracker");
-        mainFrame.setSize(1000, 700);
+        mainFrame.setSize(1220, 700);
         mainFrame.setLayout(new BorderLayout());
 
         JMenuBar mainMenu = new TrackerMenu();
