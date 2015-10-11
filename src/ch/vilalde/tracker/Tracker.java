@@ -25,6 +25,7 @@ public class Tracker implements ActionListener {
     public static final String DATA_FILE = "tracker_data.xml";
     private JFrame mainFrame;
     private ArrayList<Project> projects;
+    private Map treeMap;
     private NewTaskWindow newTaskWindow;
     private NewProjectWindow newProjectWindow;
     ImageIcon addIcon;
@@ -91,7 +92,7 @@ public class Tracker implements ActionListener {
         buttonBar.add(rightButtonBar, BorderLayout.EAST);
         mainFrame.add(buttonBar, BorderLayout.NORTH);
 
-        mainFrame.add(new Map(projects), BorderLayout.WEST);
+        buildTreeMap();
 
         mainFrame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -99,6 +100,16 @@ public class Tracker implements ActionListener {
                 System.exit(0);
             }
         });
+    }
+
+    private void buildTreeMap() {
+        if (treeMap != null) {
+            mainFrame.remove(treeMap);
+        }
+
+        treeMap = new Map(projects);
+
+        mainFrame.add(treeMap, BorderLayout.WEST);
     }
 
     /**
@@ -118,6 +129,7 @@ public class Tracker implements ActionListener {
         for (Project project : projects) {
             if (project.equals(refProject)) {
                 project.addTask(task);
+                buildTreeMap();
                 return;
             }
         }
