@@ -3,13 +3,18 @@ package ch.vilalde.tracker;
 import ch.vilalde.tracker.domain.Project;
 import ch.vilalde.tracker.domain.Task;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Tracker implements ActionListener {
@@ -19,10 +24,11 @@ public class Tracker implements ActionListener {
     private ArrayList<Project> projects;
     private NewTaskWindow newTaskWindow;
     private NewProjectWindow newProjectWindow;
+    ImageIcon addIcon;
 
     public Tracker() {
         loadData();
-
+        loadIcons();
         prepareUi();
     }
 
@@ -60,8 +66,8 @@ public class Tracker implements ActionListener {
         spentEffortButton.addActionListener(this);
         buttonBar.add(spentEffortButton);
 
-        // @Todo: Also add nice + img
         JButton addTaskButton = new JButton("Add new Task");
+        addTaskButton.setIcon(addIcon);
         addTaskButton.addActionListener(this);
         buttonBar.add(addTaskButton);
 
@@ -78,6 +84,7 @@ public class Tracker implements ActionListener {
         });
     }
 
+
     public void showUi() {
         mainFrame.setVisible(true);
     }
@@ -92,7 +99,7 @@ public class Tracker implements ActionListener {
         System.out.println("Could not find project with name: " + refProject.getName());
     }
 
-    public void addProject(Project project){
+    public void addProject(Project project) {
         projects.add(project);
         newTaskWindow.updateProjects();
     }
@@ -114,6 +121,15 @@ public class Tracker implements ActionListener {
             showNewTaskWindow();
         } else {
             System.out.println("This button is useless at the moment...");
+        }
+    }
+
+    private void loadIcons() {
+        try {
+            URL f = new File("src/resources/add.png").toURI().toURL();
+            addIcon = new ImageIcon(f);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
     }
 

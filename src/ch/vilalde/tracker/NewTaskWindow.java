@@ -55,6 +55,7 @@ public class NewTaskWindow extends JFrame implements ActionListener {
         constraints.ipady = 8;
         constraints.ipadx = 5;
         constraints.insets = new Insets(5, 5, 5, 5);
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(titleField, constraints);
 
         JLabel labelTitle = new JLabel("Title:");
@@ -77,7 +78,7 @@ public class NewTaskWindow extends JFrame implements ActionListener {
         constraints.gridy = 1;
         mainPanel.add(labelProject, constraints);
 
-        JButton buttonProject = new JButton(ADD_NEW_PROJECT);
+        JButton buttonProject = new JButton(ADD_NEW_PROJECT, main.addIcon);
         buttonProject.addActionListener(this);
         constraints.gridx = 2;
         constraints.gridy = 1;
@@ -135,6 +136,7 @@ public class NewTaskWindow extends JFrame implements ActionListener {
         mainPanel.add(buttonSaveAndAdd, constraints);
 
         this.add(mainPanel);
+        this.pack();
     }
 
     public void updateProjects(){
