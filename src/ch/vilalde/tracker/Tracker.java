@@ -22,6 +22,11 @@ import java.util.Comparator;
  */
 public class Tracker implements ActionListener {
 
+    final String CAPTION_ADD_NEW_TASK = "Add new task";
+    final String CAPTION_PRIORITY = "Priority";
+    final String CAPTION_ESTIMATED_EFFORT = "Estimated Effort";
+    final String CAPTION_SPENT_EFFORT = "Spent Effort";
+
     public static final String DATA_FILE = "tracker_data.xml";
     private JFrame mainFrame;
     private ArrayList<Project> projects;
@@ -93,13 +98,13 @@ public class Tracker implements ActionListener {
 
         JLabel sortingLabel = new JLabel("Sort by:");
         leftButtonBar.add(sortingLabel);
-        JButton priorityButton = new JButton("Priority");
+        JButton priorityButton = new JButton(CAPTION_PRIORITY);
         priorityButton.addActionListener(this);
         leftButtonBar.add(priorityButton, BorderLayout.EAST);
-        JButton estEffortButton = new JButton("Estimated Effort");
+        JButton estEffortButton = new JButton(CAPTION_ESTIMATED_EFFORT);
         estEffortButton.addActionListener(this);
         leftButtonBar.add(estEffortButton, BorderLayout.EAST);
-        JButton spentEffortButton = new JButton("Spent Effort");
+        JButton spentEffortButton = new JButton(CAPTION_SPENT_EFFORT);
         spentEffortButton.addActionListener(this);
         leftButtonBar.add(spentEffortButton, BorderLayout.EAST);
 
@@ -177,19 +182,19 @@ public class Tracker implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("Add new Task")) {
+        if (e.getActionCommand().equals(CAPTION_ADD_NEW_TASK)) {
             showNewTaskWindow();
-        } else if (e.getActionCommand().equals("Priority")) {
+        } else if (e.getActionCommand().equals(CAPTION_PRIORITY)) {
             for (Project project : projects) {
                 project.getTasks().sort(new PriorityComparator());
             }
             buildTreeMap();
-        } else if (e.getActionCommand().equals("Estimated Effort")) {
+        } else if (e.getActionCommand().equals(CAPTION_ESTIMATED_EFFORT)) {
             for (Project project : projects) {
                 project.getTasks().sort(new EstimatedEffortComparator());
             }
             buildTreeMap();
-        } else if (e.getActionCommand().equals("Spent Effort")) {
+        } else if (e.getActionCommand().equals(CAPTION_SPENT_EFFORT)) {
             for (Project project : projects) {
                 project.getTasks().sort(new SpentEffortComparator());
             }

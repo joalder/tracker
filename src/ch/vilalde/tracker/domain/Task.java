@@ -75,7 +75,7 @@ public class Task implements Serializable{
         return spentEffort;
     }
 
-    public void setSpentEffort(int estimatedEffort) {
+    public void setSpentEffort(int spentEffort) {
         this.spentEffort = spentEffort;
     }
 
