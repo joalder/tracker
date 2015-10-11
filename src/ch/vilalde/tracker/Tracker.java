@@ -33,21 +33,21 @@ public class Tracker implements ActionListener {
     public class PriorityComparator implements Comparator<Task> {
         @Override
         public int compare(Task t1, Task t2) {
-            return t1.getPriorityAsInt().compareTo(t2.getPriorityAsInt());
+            return t1.getPriorityAsInt().compareTo(t2.getPriorityAsInt()) * -1;
         }
     }
 
     public class EstimatedEffortComparator implements Comparator<Task> {
         @Override
         public int compare(Task t1, Task t2) {
-            return t1.getEstimatedEffort().compareTo(t2.getEstimatedEffort());
+            return t1.getEstimatedEffort().compareTo(t2.getEstimatedEffort()) * -1;
         }
     }
 
     public class SpentEffortComparator implements Comparator<Task> {
         @Override
         public int compare(Task t1, Task t2) {
-            return t1.getSpentEffort().compareTo(t2.getSpentEffort());
+            return t1.getSpentEffort().compareTo(t2.getSpentEffort()) * -1;
         }
     }
 
